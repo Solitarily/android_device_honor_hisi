@@ -1,0 +1,1 @@
+add_lunch_combo hi3650-userdebug

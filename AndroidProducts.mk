@@ -15,3 +15,4 @@
 #
 
 PRODUCT_MAKEFILES := \
+	$(LOCAL_DIR)/hi3650.mk
