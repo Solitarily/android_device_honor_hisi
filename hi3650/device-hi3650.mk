@@ -29,6 +29,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.sdcardfs=force_off \
     qemu.hw.mainkeys=0
 
+PRODUCT_PACKAGES += android.hardware.usb@1.0-service
+
 # Bluetooth
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl
