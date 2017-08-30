@@ -1,5 +1,5 @@
 
-ifneq ($(filter hi3650, $(TARGET_DEVICE)),)
+ifeq ($(filter hi3650, $(TARGET_DEVICE)),)
 $(call inherit-product, device/honor/hisi/hi3650/device-hi3650.mk)
 $(call inherit-product, device/honor/hisi/device-common.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
