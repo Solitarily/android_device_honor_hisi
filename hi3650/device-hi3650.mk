@@ -35,23 +35,26 @@ PRODUCT_PACKAGES += android.hardware.usb@1.0-service
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl
 
-
-USE_XML_AUDIO_POLICY_CONF := 1
 # Audio
 PRODUCT_COPY_FILES += \
-	device/honor/hisi/hi3650/audio_policy_configuration.xml:system/etc/audio_policy_configuration.xml \
-	device/honor/hisi/hi3650/audio_policy_volumes_drc.xml:system/etc/audio_policy_volumes_drc.xml \
+	$(LOCAL_PATH)/prebuilts/audio_policy.conf:vendor/etc/audio_policy.conf \
+	$(LOCAL_PATH)/prebuilts/audio_effects.conf:vendor/etc/audio_effects.conf \
 	frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:system/etc/a2dp_audio_policy_configuration.xml \
 	frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:system/etc/r_submix_audio_policy_configuration.xml \
 	frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:system/etc/usb_audio_policy_configuration.xml \
-	frameworks/av/services/audiopolicy/config/default_volume_tables.xml:system/etc/default_volume_tables.xml
+	frameworks/av/services/audiopolicy/config/default_volume_tables.xml:system/etc/default_volume_tables.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
     android.hardware.audio@2.0-service \
     android.hardware.audio.effect@2.0-impl \
     android.hardware.broadcastradio@1.0-impl \
-    android.hardware.soundtrigger@2.0-impl
+    android.hardware.soundtrigger@2.0-impl \
+    libtinyalsa \
+    libaudioroute
 
 # Launcher
 PRODUCT_PACKAGES += Launcher3
