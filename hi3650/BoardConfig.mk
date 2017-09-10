@@ -28,3 +28,15 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
+
+# Wifi
+TARGET_USES_64_BIT_BCMDHD	 := true
+BOARD_WLAN_DEVICE		 := bcmdhd
+BOARD_WLAN_DEVICE_REV		 := bcm4345
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+BOARD_HOSTAPD_PRIVATE_LIB	 := lib_driver_cmd_bcmdhd
+WIFI_DRIVER_FW_PATH_PARAM	 := "/sys/module/bcmdhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_STA		 := "/vendor/firmware/fw_bcm43455_hw.bin"
+WIFI_DRIVER_FW_PATH_AP		 := "/vendor/firmware/fw_bcm43455_apsta_hw.bin"
+WIFI_DRIVER_FW_PATH_P2P		 := "/vendor/firmware/fw_bcm43455_hw.bin"
+WIFI_BAND			 := 802_11_ABG

@@ -32,7 +32,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += android.hardware.usb@1.0-service
 
 # Bluetooth
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl
 
 # Audio
@@ -55,6 +55,22 @@ PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.0-impl \
     libtinyalsa \
     libaudioroute
+
+# Wifi
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+
+PRODUCT_PACKAGES += \
+	android.hardware.wifi@1.0-service \
+	libwpa_client \
+	lib_driver_cmd_bcmdhd \
+	hostapd \
+	dhcpcd.conf \
+	wpa_supplicant \
+	wpa_supplicant.conf \
+	wificond \
+	wifilogd
+
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/Android.mk)
 
 # Launcher
 PRODUCT_PACKAGES += Launcher3
