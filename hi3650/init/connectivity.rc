@@ -1,0 +1,7 @@
+service macaddr /vendor/bin/mac_addr_normalization
+    class late_start
+    user root
+    group root bluetooth wifi
+    seclabel u:object_r:hal_wifi_hwservice:s0
+    oneshot
+

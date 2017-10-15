@@ -5,7 +5,7 @@ TARGET_2ND_CPU_VARIANT := generic
 
 TARGET_BOARD_PLATFORM := hi3650
 
-BOARD_KERNEL_CMDLINE := loglevel=4 page_tracker=on androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := loglevel=6 page_tracker=on androidboot.selinux=permissive
 
 
 BOARD_KERNEL_BASE := 0x00478000
@@ -25,6 +25,9 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_VENDORIMAGE_PARTITION_SIZE := 637534208
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 2097152
 BOARD_FLASH_BLOCK_SIZE := 131072
+
+# SeLinux
+BOARD_SEPOLICY_DIRS += device/honor/hisi/hi3650/sepolicy
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true

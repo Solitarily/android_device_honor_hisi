@@ -9,6 +9,15 @@
         </interface>
     </hal>
     <hal format="hidl">
+        <name>android.hardware.audio</name>
+        <transport>hwbinder</transport>
+        <version>2.0</version>
+        <interface>
+            <name>IDevicesFactory</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
         <name>android.hardware.wifi</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -26,4 +35,61 @@
             <instance>default</instance>
         </interface>
     </hal>
+    <hal format="hidl">
+        <name>vendor.huawei.hardware.wifi</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IHwWifiExt</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.radio</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IRadio</name>
+            <instance>rilc</instance>
+            <instance>rilc2</instance>
+            <instance>rildi</instance>
+            <instance>rildi2</instance>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+            <instance>slot3</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.radio.deprecated</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IOemHook</name>
+            <instance>rilc</instance>
+            <instance>rilc2</instance>
+            <instance>rildi</instance>
+            <instance>rildi2</instance>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+            <instance>slot3</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>vendor.huawei.hardware.radio</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IRadio</name>
+            <instance>rilc</instance>
+            <instance>rilc2</instance>
+            <instance>rildi</instance>
+            <instance>rildi2</instance>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+            <instance>slot3</instance>
+        </interface>
+    </hal>
+    <sepolicy>
+	<version>26.0</version>
+    </sepolicy>
 </manifest>

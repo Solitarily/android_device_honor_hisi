@@ -35,6 +35,9 @@ PRODUCT_PACKAGES += android.hardware.usb@1.0-service
 #PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl
 
+# Disable OMX Treble by now
+PRODUCT_PROPERTY_OVERRIDES += persist.media.treble_omx=false
+
 # Audio
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/prebuilts/audio_policy.conf:vendor/etc/audio_policy.conf \
@@ -43,9 +46,9 @@ PRODUCT_COPY_FILES += \
 	frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:system/etc/r_submix_audio_policy_configuration.xml \
 	frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:system/etc/usb_audio_policy_configuration.xml \
 	frameworks/av/services/audiopolicy/config/default_volume_tables.xml:system/etc/default_volume_tables.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:vendor/etc/media_codecs_google_audio.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:vendor/etc/media_codecs_google_telephony.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:vendor/etc/media_codecs_google_video.xml
 
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
@@ -54,13 +57,34 @@ PRODUCT_PACKAGES += \
     android.hardware.broadcastradio@1.0-impl \
     android.hardware.soundtrigger@2.0-impl \
     libtinyalsa \
-    libaudioroute
+    libaudioroute \
+#    libstagefrighthw
+
+# RIL
+PRODUCT_PROPERTY_OVERRIDES += \
+	rild.libargs=-m modem0 \
+	ro.multi.rild=false \
+	ro.config.is_start_commril=true \
+	ro.config.default_commril_mode=ULG_MODE \
+	persist.dsds.enabled=false \
+	ro.config.modem_number=1 \
+	ro.config.hw_dsda=false \
+	ro.config.full_network_support=false \
+	ro.config.client_number=1 \
+	ro.config.hw_save_pin=true \
+	rild.rild1_ready_to_start=false \
+	rild.libpath=/vendor/lib64/libbalong-ril.so \
+	ro.telephony.default_network=9 \
+	persist.radio.modem.cap=8999D
+
+PRODUCT_PACKAGES += android.hardware.radio@1.0
 
 # Wifi
-PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+	$(LOCAL_PATH)/init/vendor.huawei.hardware.wifi@1.0-service.rc:vendor/etc/init/vendor.huawei.hardware.wifi@1.0-service.rc \
+	$(LOCAL_PATH)/init/connectivity.rc:vendor/etc/init/connectivity.rc
 
 PRODUCT_PACKAGES += \
-	android.hardware.wifi@1.0-service \
 	libwpa_client \
 	lib_driver_cmd_bcmdhd \
 	hostapd \
