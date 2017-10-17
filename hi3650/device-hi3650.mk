@@ -6,6 +6,9 @@ $(call inherit-product-if-exists, vendor/honor/hisi/hi3650/vendor.mk)
 
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/kernel:kernel
 
+
+PRODUCT_PACKAGES += libhisi
+
 # Vendor Interface Manifest
 PRODUCT_COPY_FILES += \
     device/honor/hisi/hi3650/manifest.xml:vendor/manifest.xml
@@ -35,30 +38,31 @@ PRODUCT_PACKAGES += android.hardware.usb@1.0-service
 #PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl
 
-# Disable OMX Treble by now
-PRODUCT_PROPERTY_OVERRIDES += persist.media.treble_omx=false
-
 # Audio
 PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/init/vendor.huawei.audio@2.0-service.rc:vendor/etc/init/vendor.huawei.audio@2.0-service.rc \
 	$(LOCAL_PATH)/prebuilts/audio_policy.conf:vendor/etc/audio_policy.conf \
 	$(LOCAL_PATH)/prebuilts/audio_effects.conf:vendor/etc/audio_effects.conf \
+	$(LOCAL_PATH)/prebuilts/audio_policy_configuration.xml:vendor/etc/audio_policy_configuration.xml \
+	$(LOCAL_PATH)/prebuilts/audio_policy_volumes_drc.xml:vendor/etc/audio_policy_volumes_drc.xml \
+	$(LOCAL_PATH)/prebuilts/default_volume_tables.xml:vendor/etc/default_volume_tables.xml \
+	$(LOCAL_PATH)/prebuilts/r_submix_audio_policy_configuration.xml:system/etc/r_submix_audio_policy_configuration.xml \
 	frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:system/etc/a2dp_audio_policy_configuration.xml \
-	frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:system/etc/r_submix_audio_policy_configuration.xml \
 	frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:system/etc/usb_audio_policy_configuration.xml \
-	frameworks/av/services/audiopolicy/config/default_volume_tables.xml:system/etc/default_volume_tables.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:vendor/etc/media_codecs_google_audio.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:vendor/etc/media_codecs_google_telephony.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:vendor/etc/media_codecs_google_video.xml
+	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
 PRODUCT_PACKAGES += \
     android.hardware.audio@2.0-impl \
     android.hardware.audio@2.0-service \
     android.hardware.audio.effect@2.0-impl \
-    android.hardware.broadcastradio@1.0-impl \
+    android.hardware.broadcastradio@1.1-impl \
+    android.hardware.broadcastradio@1.1 \
     android.hardware.soundtrigger@2.0-impl \
+    android.hardware.media.omx@1.0 \
     libtinyalsa \
-    libaudioroute \
-#    libstagefrighthw
+    libaudioroute
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
