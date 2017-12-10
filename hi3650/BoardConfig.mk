@@ -7,6 +7,7 @@ TARGET_BOARD_PLATFORM := hi3650
 
 BOARD_KERNEL_CMDLINE := loglevel=6 page_tracker=on androidboot.selinux=permissive
 
+TARGET_RECOVERY_FSTAB := device/honor/hisi/hi3650/fstab.hi3650
 
 BOARD_KERNEL_BASE := 0x00478000
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x07b88000 --tags_offset 0x07588000
@@ -31,6 +32,20 @@ BOARD_SEPOLICY_DIRS += device/honor/hisi/hi3650/sepolicy
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
+
+# Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+USE_BLUETOOTH_BCM4343 := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/honor/hisi/hi3650/bluetooth
+BOARD_CUSTOM_BT_CONFIG := device/honor/hisi/hi3650/bluetooth/vnd_hi3650.txt
+
+# HWUI
+HWUI_COMPILE_SYMBOLS := true
+
+# NFC
+BOARD_NFC_CHIPSET := pn548
+TARGET_USES_NQ_NFC := true
 
 # Wifi
 TARGET_USES_64_BIT_BCMDHD	 := true

@@ -6,17 +6,16 @@ $(call inherit-product-if-exists, vendor/honor/hisi/hi3650/vendor.mk)
 
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/kernel:kernel
 
-
 PRODUCT_PACKAGES += libhisi
 
 # Vendor Interface Manifest
 PRODUCT_COPY_FILES += \
     device/honor/hisi/hi3650/manifest.xml:vendor/manifest.xml
 
-
 # Ramdisk
 PRODUCT_COPY_FILES +=   $(LOCAL_PATH)/fstab.hi3650:root/fstab.hi3650 \
 			$(LOCAL_PATH)/init.hi3650.rc:root/init.hi3650.rc \
+			$(LOCAL_PATH)/init.hi3650.gps.rc:root/init.hi3650.gps.rc \
 			$(LOCAL_PATH)/init.hi3650.usb.configfs.rc:root/init.hi3650.usb.configfs.rc \
 			$(LOCAL_PATH)/ueventd.hi3650.rc:root/ueventd.hi3650.rc
 
@@ -25,8 +24,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.build.subproduct=F2FS \
     ro.magic.api.version=0.1 \
     ro.enable_boot_charger_mode=0 \
-    persist.sys.usb.config=manufacture,adb \
-    sys.usb.config=manufacture,adb \
+    persist.sys.usb.config=mtp \
+    sys.usb.config=mtp \
     sys.usb.configfs=1 \
     sys.usb.controller=ff100000.dwc3 \
     persist.sys.sdcardfs=force_off \
@@ -35,8 +34,10 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += android.hardware.usb@1.0-service
 
 # Bluetooth
-#PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0-impl
+PRODUCT_PACKAGES += \
+	android.hardware.bluetooth@1.0-impl \
+	android.hardware.bluetooth@1.0-service \
+	libbt-vendor
 
 # Audio
 PRODUCT_COPY_FILES += \
@@ -62,7 +63,43 @@ PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.0-impl \
     android.hardware.media.omx@1.0 \
     libtinyalsa \
-    libaudioroute
+    libaudioroute \
+    audio.a2dp.default
+
+# Camera
+PRODUCT_PROPERTY_OVERRIDES += camera.disable_treble=true
+
+# Fingerprint
+PRODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint@2.1-service
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.fingerprint.xml:system/etc/permissions/android.hardware.fingerprint.xml
+
+# Gatekeeper & Keymaster
+
+PRODUCT_PACKAGES += android.hardware.keymaster@3.0-service android.hardware.gatekeeper@1.0-service android.hardware.gatekeeper@1.0-impl
+
+# GPS
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/init/vendor.huawei.hardware.gnss@1.0-service.rc:vendor/etc/init/vendor.huawei.hardware.gnss@1.0-service.rc \
+	 frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml
+
+PRODUCT_PACKAGES += \
+	android.hardware.gnss@1.0-impl \
+	android.hardware.gnss@1.0-service
+
+# NFC
+PRODUCT_PACKAGES += \
+    NfcNci \
+    Tag \
+    com.android.nfc_extras \
+    android.hardware.nfc@1.0-impl \
+    android.hardware.nfc@1.0 \
+    nfc_nci.pn54x.default
+
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/prebuilts/libnfc-nxp.conf:system/etc/libnfc-nxp.conf \
+	$(LOCAL_PATH)/prebuilts/libnfc-brcm.conf:system/etc/libnfc-brcm.conf
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -82,6 +119,24 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.radio.modem.cap=8999D
 
 PRODUCT_PACKAGES += android.hardware.radio@1.0
+
+# Sensors
+PRODUCT_PACKAGES += android.hardware.sensors@1.0
+
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/init/vendor.huawei.hardware.sensors@1.0-service.rc:vendor/etc/init/vendor.huawei.hardware.sensors@1.0-service.rc
+
+# Usb
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.magic.api.version=0.1 \
+    ro.enable_boot_charger_mode=0 \
+    persist.sys.usb.config=manufacture,adb \
+    sys.usb.configfs=1 \
+    sys.usb.controller=ff100000.dwc3
+
+# Vibrator
+PRODUCT_PACKAGES += \
+	android.hardware.vibrator@1.0-service \
+	android.hardware.vibrator@1.0-impl
 
 # Wifi
 PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
@@ -110,7 +165,14 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
 	frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:system/etc/permissions/android.hardware.vulkan.level.xml \
-	frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version.xml
+	frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version.xml \
+	frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+	frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+	frameworks/native/data/etc/android.hardware.camera.full.xml:system/etc/permissions/android.hardware.camera.full.xml \
+	frameworks/native/data/etc/android.hardware.camera.raw.xml:system/etc/permissions/android.hardware.camera.raw.xml \
+	frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+	frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
+	frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml
 
 # HWUI
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -125,3 +187,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hwui.text_small_cache_height=1024 \
     ro.hwui.text_large_cache_width=2048 \
     ro.hwui.text_large_cache_height=1024
+

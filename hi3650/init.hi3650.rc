@@ -310,7 +310,9 @@ on early-fs
 
 on fs
 
-    export LD_PRELOAD libhisi.so
+
+
+#    export LD_SHIM_LIBS /vendor/lib64/libhwuibp.so|libhwuihisi.so:/vendor/lib64/libhwuihisi.so|libskiahisi.so:/vendor/lib64/libhwuihisi.so|libminikinhisi.so:/vendor/lib64/libhwuihisi.so|libguihisi.so:/vendor/lib64/libhwuihisi.so|/vendor/lib64/libRScpp.so:/vendor/lib64/libhwuihisi.so|/vendor/lib64/libprotobuf-cpp-litehisi.so:/vendor/lib64/libhwuihisi.so|/vendor/lib64/libprotobuf-cpp-fullhisi.so:/vendor/lib64/libskiahisi.so|/vendor/lib64/libicuuc.so:/vendor/lib64/libskiahisi.so|/vendor/lib64/libicui18n.so:/vendor/lib64/libguihisi.so|libuihisi.so:/vendor/lib64/hw/fingerprint.hi3650.so|libloghisi.so
 
     wait /dev/block/bootdevice/by-name
     mount_all fstab.hi3650
@@ -375,9 +377,13 @@ on post-fs
     chmod 0660 /proc/uid_iostats/remove_uid_list
 
 on post-fs-data
-    start teecd
+
     start logcatd
     mkdir /data/nfc 0755 nfc nfc
+    setprop sys.userdata_is_ready 1
+    start teecd
+    export LD_PRELOAD libhisi.so:libsensor.so
+    export LD_SHIM_LIBS /vendor/bin/hw/vendor.huawei.hardware.wifi@1.0-service|libwifi-system-iface.so
 
     mkdir /splash2/sim 0775 root system
     mkdir /splash2/sim/offlinelogs 0775 root system
@@ -638,9 +644,9 @@ on boot
     chown bluetooth net_bt_stack /dev/ttyAMA4
     chmod 660 /dev/ttyAMA4
 
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
-    chmod 0774 /sys/class/rfkill/rfkill0/state
+#    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
+ #   chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
+  #  chmod 0774 /sys/class/rfkill/rfkill0/state
 
     chown bluetooth net_bt_stack /proc/bluetooth/sleep/proto
     chmod 664 /proc/bluetooth/sleep/proto
@@ -1123,12 +1129,28 @@ on charger
 
 # Start Service
 
-service HwCamCfgSvr /vendor/bin/HwCamCfgSvr hi3650 FRD
-    class main
-    user media
-    group audio camera inet net_bt net_bt_admin net_bw_acct wakelock system
-    ioprio rt 4
-    writepid /dev/cpuset/system-background/tasks /dev/stune/system-background/tasks
+#service HwCamCfgSvr /vendor/bin/HwCamCfgSvr hi3650 FRD
+#    class main
+#    user media
+#    group audio camera inet net_bt net_bt_admin net_bw_acct wakelock system
+#    ioprio rt 4
+#    writepid /dev/cpuset/system-background/tasks /dev/stune/system-background/tasks
+#    seclabel u:object_r:hal_camera_hwservice:s0
+
+service nfc_hal_ext_service /vendor/bin/hw/vendor.huawei.hardware.nfc@1.0-service
+    class hal
+    user nfc
+    group nfc
+    seclabel u:object_r:hal_nfc_hwservice:s0
+
+#service CameraDaemon /vendor/bin/CameraDaemon hi3650 FRD
+#    class main
+#    user media
+#    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm system
+#    ioprio rt 4
+#    capabilities SYS_NICE
+#    writepid /dev/cpuset/top-app/tasks /dev/stune/top-app/tasks
+#    seclabel u:object_r:hal_camera_hwservice:s0
 
 service vr_daemon /system/bin/vr_daemon
     class main
@@ -1185,11 +1207,12 @@ service modemlogcat_VIA /vendor/bin/modemlogcat_via -t /dev/ttySPI1 -p /data/log
 on property:sys.userdata_is_ready=1
     exec - root root -- /system/bin/sh /vendor/etc/blkcg_init.sh 0 0
 
-service perfhub /vendor/bin/perfhub
-    class core
-    user system
-    group system wakelock
-    writepid /dev/cpuset/system-background/tasks /dev/stune/system-background/tasks
+#service perfhub /vendor/bin/perfhub
+#    class core
+#    user system
+#    group system wakelock
+#    writepid /dev/cpuset/system-background/tasks /dev/stune/system-background/tasks
+#    seclabel u:object_r:hal_camera_hwservice:s0
 
 on property:persist.sys.huawei.debug.on=0
     chown system system /sys/class/sensors/sensorhub_dump
@@ -1267,8 +1290,10 @@ service atcmdserver /vendor/bin/atcmdserver
 
 service oeminfo_nvm /sbin/oeminfo_nvm_server
     class core
+    user root
     critical
     ioprio rt 4
+    seclabel u:object_r:trust_service:s0
 
 service diagserver /vendor/bin/diagserver
     class main
