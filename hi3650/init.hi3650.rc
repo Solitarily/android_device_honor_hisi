@@ -385,6 +385,8 @@ on post-fs-data
     export LD_PRELOAD libhisi.so:libsensor.so
     export LD_SHIM_LIBS /vendor/bin/hw/vendor.huawei.hardware.wifi@1.0-service|libwifi-system-iface.so
 
+    chown wifi wifi /data/misc/wifi/hostapd.conf
+
     mkdir /splash2/sim 0775 root system
     mkdir /splash2/sim/offlinelogs 0775 root system
     write /splash2/sim/offlinelogs/balong_modem1_simoffline.txt  0

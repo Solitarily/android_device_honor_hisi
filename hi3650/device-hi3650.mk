@@ -12,6 +12,9 @@ PRODUCT_PACKAGES += libhisi
 PRODUCT_COPY_FILES += \
     device/honor/hisi/hi3650/manifest.xml:vendor/manifest.xml
 
+DEVICE_PACKAGE_OVERLAYS := \
+    device/honor/hisi/hi3650/overlay
+
 # Ramdisk
 PRODUCT_COPY_FILES +=   $(LOCAL_PATH)/fstab.hi3650:root/fstab.hi3650 \
 			$(LOCAL_PATH)/init.hi3650.rc:root/init.hi3650.rc \
